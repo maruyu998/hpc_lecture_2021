@@ -1,6 +1,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <vector>
+#include <omp.h>
 
 template<class T>
 void merge(std::vector<T>& vec, int begin, int mid, int end) {
@@ -41,7 +42,11 @@ int main() {
     printf("%d ",vec[i]);
   }
   printf("\n");
-  merge_sort(vec, 0, n-1);
+#pragma omp parallel
+  {
+#pragma omp single
+    merge_sort(vec, 0, n-1);
+  }
   for (int i=0; i<n; i++) {
     printf("%d ",vec[i]);
   }
